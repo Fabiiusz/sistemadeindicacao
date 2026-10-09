@@ -60,3 +60,20 @@
     mostra indicação e cria alerta `nps_detrator` para dono/gerente com o comentário. Uma resposta por link.
 20. **Regulamento do cliente** e limite de indicações recompensadas aparecem na página após nota 9–10
     (`/termos/clientes`). O limite vem de `regras_indicacao.limite_por_indicador` da regra do público "cliente".
+21. **Sincronização lead ↔ indicação** por triggers (`leads_sincroniza_indicacao`, `indicacoes_sincroniza_lead`),
+    com guardas de igualdade para não entrar em loop. Indicação fechada só "volta" se o lead for perdido. Lead
+    marcado como "ganho" sem valor gera alerta "Informe o valor"; ao informar o valor no lead, a comissão
+    percentual prevista é calculada. Indicações inválidas/duplicadas não mexem no lead.
+22. **Festa**: festa criada com `lead_id` é ligada à indicação desse lead; "sinal pago" e "realizada" disparam a
+    verificação das condições; festa cancelada marca a indicação como perdida, cancela recompensas previstas e,
+    se já houver recompensa aprovada, cria alerta para o dono decidir (não cancelamos dinheiro aprovado sozinhos).
+23. **Pagamentos**: só dono/gerente marcam como paga (`marcar_recompensa_paga`), com data, forma e link de
+    comprovante (upload de arquivo fica como TODO — hoje é um link, ex.: Google Drive). CSV com `;` e BOM para abrir
+    no Excel em pt-BR. Ajuste manual de valor e cancelamento exigem justificativa e ficam na auditoria.
+24. **Alertas de prazo** são uma view calculada (`alertas_prazos`), sem cron. Alertas de evento (NPS detrator,
+    parceiro suspeito, parceiro pendente, nova indicação, informar valor) ficam na tabela `alertas`.
+25. **Métricas**: "contatadas" e "visitas" contam a etapa máxima alcançada (pelo histórico), para que indicações
+    perdidas depois da visita também contem. Custo de aquisição = comissões aprovadas + pagas ÷ fechamentos.
+    A comparação com outros canais usa a origem dos leads no mesmo período.
+26. **Telas de Leads e Festas** são mínimas, só para o módulo ser testável de ponta a ponta; no PortaCheia real use
+    as telas existentes (os triggers fazem a ponte).
