@@ -110,7 +110,7 @@ export function Metrica({ rotulo, valor, detalhe }: { rotulo: string; valor: Rea
   return (
     <div className="min-w-0 rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
       <p className="text-xs text-gray-500 sm:text-sm">{rotulo}</p>
-      <p className="mt-1 break-words text-base font-bold leading-tight sm:text-2xl">{valor}</p>
+      <p className="mt-1 whitespace-nowrap text-sm font-bold tabular-nums leading-tight sm:text-2xl">{valor}</p>
       {detalhe ? <p className="mt-1 text-xs text-gray-500">{detalhe}</p> : null}
     </div>
   );
