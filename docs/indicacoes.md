@@ -34,3 +34,17 @@
 9. **Rate limit** no banco (`tentativas_indicacao`): padrão 5 envios / 10 min por IP (hash com sal) e 20 por
    parceiro / dia; configurável em `espacos.config`.
 10. **Telefones** sempre em E.164; sem DDI assume +55.
+11. **Login do parceiro** por link mágico de e-mail (Supabase Auth OTP). "Link mágico via WhatsApp": a equipe clica
+    em "Enviar acesso ao painel pelo WhatsApp", o servidor gera o link com `auth.admin.generateLink` e coloca na fila
+    de envios (wa.me). Exige e-mail no cadastro do parceiro (o Supabase precisa de um e-mail ou telefone para a
+    conta). O primeiro login liga o usuário ao parceiro pelo e-mail (`vincular_parceiro_usuario`). OTP por SMS/
+    WhatsApp nativo do Supabase fica como TODO (exige provedor Twilio/MessageBird configurado).
+12. **Parceiro não lê a tabela `indicacoes`** (RLS só para a equipe). O painel usa `minhas_indicacoes()` e
+    `minhas_recompensas()`, que devolvem apenas o primeiro nome + inicial do sobrenome e nunca telefone/e-mail.
+13. **QR Code** gerado sob demanda em `/api/qr/[codigo]` (PNG 800px ou cartão PDF A6). É público porque o link
+    também é; só funciona para parceiro ativo.
+14. **Cadastro público** aceita `?espaco=slug`; sem parâmetro usa `NEXT_PUBLIC_ESPACO_PADRAO`. Termos
+    versionados em código (`lib/indicacoes/termos.ts`) e o aceite guarda versão, data e IP.
+15. **Formulários públicos** usam service role apenas no servidor, chamando funções SQL que revalidam tudo.
+    O texto do consentimento é montado no servidor (o cliente não consegue alterá-lo) e há honeypot anti-robô.
+16. Status do parceiro ao aprovar enfileira automaticamente a mensagem de boas-vindas com o link pessoal.
