@@ -32,6 +32,7 @@ describe("mascararNome", () => {
   it("mostra primeiro nome e inicial do sobrenome", () => {
     expect(mascararNome("maria clara SOUZA")).toBe("Maria S.");
     expect(mascararNome("João")).toBe("João");
+    expect(mascararNome("patrícia ÁVILA")).toBe("Patrícia Á.");
     expect(mascararNome("  ")).toBe("");
   });
 });

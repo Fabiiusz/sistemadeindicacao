@@ -21,7 +21,7 @@ fi
 
 export PGOPTIONS="-c client_min_messages=warning"
 PSQL=("$PGBIN/psql" -h "$DIR" -p "$PORT" -U postgres -v ON_ERROR_STOP=1 -q)
-"${PSQL[@]}" -d postgres -c "drop database if exists portacheia_test" -c "create database portacheia_test"
+"${PSQL[@]}" -d postgres -c "drop database if exists portacheia_test with (force)" -c "create database portacheia_test encoding 'UTF8' template template0 lc_collate 'C.UTF-8' lc_ctype 'C.UTF-8'"
 "${PSQL[@]}" -d portacheia_test -f "$ROOT/supabase/tests/supabase_shim.sql"
 for f in "$ROOT"/supabase/migrations/*.sql; do
   "${PSQL[@]}" -d portacheia_test -f "$f"

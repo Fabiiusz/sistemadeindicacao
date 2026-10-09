@@ -87,6 +87,7 @@ describe.skipIf(!temBanco)("RLS: parceiro só vê o que é dele", () => {
     const b = await criarParceiro(espaco, { userId: userB });
     const ta = tel();
     await indicarPorLink(a.codigo_indicacao, ta, { nome: "maria clara souza" });
+    expect((await sql("select mascarar_nome($1) as n", ["patrícia ÁVILA"]))[0].n).toBe("Patrícia Á.");
     await indicarPorLink(b.codigo_indicacao, tel(), { nome: "Pedro Henrique Alves" });
 
     await usuario(userA, async (c) => {

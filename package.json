@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run tests/unit",
-    "test:db": "bash scripts/test-db.sh",
-    "db:seed": "node scripts/seed-remote.mjs"
+    "test:db": "bash scripts/test-db.sh"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

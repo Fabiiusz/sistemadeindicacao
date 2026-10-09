@@ -56,10 +56,11 @@ begin
     return null;
   end if;
   partes := regexp_split_to_array(trim(p), '\s+');
+  -- sem initcap: ele quebra em letras acentuadas dependendo do locale ("PatríCia")
   if array_length(partes, 1) = 1 then
-    return initcap(partes[1]);
+    return upper(left(partes[1], 1)) || lower(substr(partes[1], 2));
   end if;
-  return initcap(partes[1]) || ' ' || upper(left(partes[array_length(partes, 1)], 1)) || '.';
+  return upper(left(partes[1], 1)) || lower(substr(partes[1], 2)) || ' ' || upper(left(partes[array_length(partes, 1)], 1)) || '.';
 end;
 $$;
 
