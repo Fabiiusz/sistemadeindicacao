@@ -48,3 +48,15 @@
 15. **Formulários públicos** usam service role apenas no servidor, chamando funções SQL que revalidam tudo.
     O texto do consentimento é montado no servidor (o cliente não consegue alterá-lo) e há honeypot anti-robô.
 16. Status do parceiro ao aprovar enfileira automaticamente a mensagem de boas-vindas com o link pessoal.
+17. **Pós-festa**: `gerar_lote_pos_festa` pega festas não canceladas com data entre `hoje - dias_pos_festa - 30` e
+    `hoje - dias_pos_festa` (padrão 2 dias; o limite de 30 dias evita disparar para festas antigas quando o módulo é
+    ligado). Não exige status "realizada" porque é comum a equipe não atualizar o status. É idempotente (uma
+    pesquisa por festa), roda via cron diário (`vercel.json`, 12h UTC = 9h de Brasília) e pelo botão
+    "Gerar lote pós-festa de hoje" na Fila de envios.
+18. **MessageProvider**: não existia no repositório; criei `lib/mensagens/provider.ts` com `WaMeProvider` (MVP,
+    envio assistido), `MailtoProvider` e um `WhatsAppCloudProvider` (TODO). Toda mensagem passa pela
+    `fila_envios`, e `enfileirar_mensagem` marca como `bloqueado` quem está em `bloqueio_contato`.
+19. **NPS**: 9–10 cria o "cliente indicador" (código `/v/[codigo]`) e mostra o convite; 7–8 só agradece; 0–6 não
+    mostra indicação e cria alerta `nps_detrator` para dono/gerente com o comentário. Uma resposta por link.
+20. **Regulamento do cliente** e limite de indicações recompensadas aparecem na página após nota 9–10
+    (`/termos/clientes`). O limite vem de `regras_indicacao.limite_por_indicador` da regra do público "cliente".
